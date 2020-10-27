@@ -11,7 +11,7 @@ const App = () =>{
     // },[]);
     return(
        <ItemProvider>
-        <GoogleAuth />
+        <GoogleAuth/>
         <div className="ui container">
             <Todolist />
         </div>

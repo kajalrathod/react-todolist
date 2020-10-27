@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Icon, Form } from 'semantic-ui-react';
+import { Icon, Form , Header, Input} from 'semantic-ui-react';
 import ListOfItems from './ListOfItems';
 import {ItemContext} from '../components/context/ItemContext';
 
@@ -16,13 +16,13 @@ const TodoForm = ({addTodo}) =>{
     
       return (
           <Form onSubmit={handleSubmit}>
-            <Form.Group >
-            <Form.Input icon={<Icon name='plus' inverted circular link onClick={handleSubmit}/>}
+            <Input icon={<Icon name='plus' inverted circular link onClick={handleSubmit}/>}
+             
+              size="huge"
               type="text"
               className="input"
               value={value}
               onChange={e => setValue(e.target.value)}/>
-            </Form.Group>
           </Form>
       );
 }
@@ -30,7 +30,7 @@ const TodoForm = ({addTodo}) =>{
 
 const TodoList = () => {
     const {addItem, removeProduct, completeProd} = useContext(ItemContext);
-    const {items} = useContext(ItemContext);
+    const {items, signIn, signOut} = useContext(ItemContext);
     const[todos, setTodos] = React.useState(items);
    
     const addTodo = (text) => {
@@ -52,24 +52,27 @@ const TodoList = () => {
         setTodos(newTodos);
         removeProduct(newTodos);
       }
-    return(
-        <>
-           <div>
-            <div>
-                {todos.map((todo, index)=> (           
-                    <ListOfItems
-                        key={index}
-                        index={index}
-                        todo={todo}
-                        completeTodo={completeTodo}
-                        removeTodo={removeTodo}
-                         />
-                )   )}
+    
+      
+          return(
+            <>
+               <div className="ui segment" style={{margin : "50px 200px"}}>
+               <Header as="h2" textAlign="center" disabled>TodoList</Header>
+               <TodoForm  addTodo={addTodo} />
+                 <div>
+                    {todos.map((todo, index)=> (           
+                        <ListOfItems
+                            key={index}
+                            index={index}
+                            todo={todo}
+                            completeTodo={completeTodo}
+                            removeTodo={removeTodo}
+                             />
+                    )   )}
+                </div>           
             </div>
-            <TodoForm  addTodo={addTodo} />
-        </div>
-        </>
-    );
+            </>
+        );
 }
 
 
