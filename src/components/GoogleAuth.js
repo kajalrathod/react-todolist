@@ -1,9 +1,12 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
+import { ItemContext } from './context/ItemContext';
 
 export const GoogleAuth = () => {
     const [isSignedIn, setIsSignedIn] = useState(null);
-    const [userName, setUserName] = useState(null)
+    const [userName, setUserName] = useState(null);
+    const [id, setId] = useState(null);
     const auth = useRef();
+    const { signIn, signOut } = useContext(ItemContext);
 
     useEffect(() => {
         window.gapi.load('client:auth2', () => {
@@ -17,14 +20,13 @@ export const GoogleAuth = () => {
                 setIsSignedIn(auth.current.isSignedIn.get());
             })
         });
-    }, []);
+    },[]);
 
     const onAuthChange = (isSignedIn, auth) => {
         if (isSignedIn) {
-            //console.log("staus : " + isSignedIn);
             const userName = auth.currentUser.get().getBasicProfile().getName();
             const userId = auth.currentUser.get().getId();
-            //console.log("username : " + userName, userId);
+            setId(userId);
             setUserName(userName);
         }
         else {
@@ -34,19 +36,22 @@ export const GoogleAuth = () => {
     }
 
     const onSignInClick = () => {
-        auth.current.signIn().then(() => window.location.reload());
+       // auth.current.signIn().then(() => window.location.reload());
+        auth.current.signIn();
+        signIn(id);
     }
 
     const onSignOutClick = () => {
-        auth.current.signOut().then(() => window.location.reload());
-
+        //auth.current.signOut().then(() => window.location.reload()); 
+        auth.current.signOut();
+        signOut(id);
     }
 
     const renderButtton = () => {
         if (isSignedIn === null) {
             return null;
         } else if (isSignedIn) {
-            return <div>Hello {userName},
+            return <div >Hello {userName},
             <br />
                 <button onClick={onSignOutClick} className="ui red google button" >
                     <i className="google icon" />
@@ -63,7 +68,7 @@ export const GoogleAuth = () => {
     }
 
     return (
-        <div>
+        <div style={{float:'right'}}>
             {renderButtton()}
         </div>
     );

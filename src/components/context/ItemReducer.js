@@ -23,11 +23,26 @@ export const ItemReducer = (state, action) => {
                     ...state
                 }
 
-                case "COMPLETED" :
-                    return {
-                        ...listItems(action.payload),
-                        ...state
-                    }
+            case "COMPLETED" :
+                return {
+                    ...listItems(action.payload),
+                    ...state
+                }
+            
+            case "SIGN_IN" :
+                console.log("signIn", action.payload)
+                return{
+                    ...state,
+                    userId : action.payload
+                }
+            
+            case "SIGN_OUT" : 
+            console.log("signOut", action.payload)
+            return{
+                ...state,
+                userId : action.payload
+            }
+                
 
         default:
     }

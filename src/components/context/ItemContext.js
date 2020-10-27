@@ -20,12 +20,22 @@ export const ItemProvider = (props) =>{
 
     const completeProd = (payload) =>{
         dispatch({type : "COMPLETED" , payload})
- 
     }
+
+    const signIn = (userId) =>{
+        dispatch({type : "SIGN_IN", payload: userId })
+    }
+
+    const signOut = (userId) => {
+        dispatch({type: "SIGN_OUT" , payload : userId})
+    }
+
     const contextValue ={
         addItem,
         removeProduct,
         completeProd,
+        signIn,
+        signOut,
         ...state
     }
 
